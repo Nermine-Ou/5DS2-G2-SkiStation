@@ -54,6 +54,7 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+
 	<distributionManagement>
 		<repository>
 			<id>nexus-releases</id>
@@ -64,6 +65,7 @@
 			<url>http://172.10.0.140/:8081/repository/maven-snapshots/</url>
 		</snapshotRepository>
 	</distributionManagement>
+
 	<build>
 		<plugins>
 			<plugin>
@@ -78,6 +80,16 @@
 					</excludes>
 				</configuration>
 			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>9</source>
+					<target>9</target>
+				</configuration>
+			</plugin>
+
 		</plugins>
 	</build>
 
