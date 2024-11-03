@@ -15,16 +15,17 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'mvn clean package -DskipTests'
+                 sh "chmod +x ./mvnw"
+                 sh "mvn clean package -Pprod -X"
+                 sh "mvn --version"
             }
         }
 
-/*       stage("Mockito TEST") {
+        stage("Mockito TEST") {
             steps {
-                sh 'mvn test '
+                sh 'mvn test'
             }
         }
-        */
 
         stage('Quality Test SonarQube') {
             steps {

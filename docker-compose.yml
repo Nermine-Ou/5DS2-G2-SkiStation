@@ -10,9 +10,9 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - mysql_data:/var/lib/mysql
-    networks:
-      - my-network
+      - mysql:/var/lib/mysql
+      - $PWD/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+
 
   spring_app:
     image: raniahmidet/raniahmidet-5DS2-G2-skistation:${IMAGE_TAG}
@@ -25,5 +25,4 @@ services:
       - SPRING_DATASOURCE_PASSWORD=
     volumes:
       - .m2:/var/lib/jenkins/.m2
-    networks:
-      - my-network
+    
