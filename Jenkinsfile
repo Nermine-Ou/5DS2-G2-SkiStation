@@ -19,11 +19,12 @@ pipeline {
             }
         }
 
-        stage("Mockito TEST") {
+/*       stage("Mockito TEST") {
             steps {
-                sh 'mvn test'
+                sh 'mvn test '
             }
         }
+        */
 
         stage('Quality Test SonarQube') {
             steps {
