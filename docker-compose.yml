@@ -27,5 +27,3 @@ services:
       - .m2:/var/lib/jenkins/.m2
     networks:
       - my-network
-  networks:
-    my-network
