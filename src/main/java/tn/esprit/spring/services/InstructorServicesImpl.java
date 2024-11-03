@@ -55,4 +55,9 @@ public class InstructorServicesImpl implements IInstructorServices {
         instructor.setCourses(courseSet);
         return instructorRepository.save(instructor);
     }
+    @Override
+    public void deleteInstructor(Long numInstructor) {
+        logger.info("Deleting instructor with ID: {}", numInstructor);
+        instructorRepository.deleteById(numInstructor);
+    }
 }
