@@ -4,7 +4,6 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -33,10 +32,10 @@ import static org.mockito.Mockito.when;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class SkierServiceImplTest {
 
-	@Autowired
+	@InjectMocks
 	private SkierServicesImpl skierService;
 
-	@MockBean
+	@Mock
 	private ISkierRepository skierRepository;
 
 	@BeforeEach
@@ -50,10 +49,10 @@ class SkierServiceImplTest {
 	void testAddSkier() {
 		// Arrange
 		Skier skier = new Skier();
-		skier.setFirstName("John");
-		skier.setLastName("Doe");
-		skier.setDateOfBirth(LocalDate.of(1993, 5, 15));
-		skier.setCity("New York");
+		skier.setFirstName("rania");
+		skier.setLastName("hmidet");
+		skier.setDateOfBirth(LocalDate.of(2001, 4, 2));
+		skier.setCity("tunis");
 
 		Subscription subscription = new Subscription();
 		subscription.setStartDate(LocalDate.of(2023, 11, 1));
@@ -78,8 +77,8 @@ class SkierServiceImplTest {
 	void testRetrieveAllSkiers() {
 		// Arrange
 		List<Skier> skiers = new ArrayList<>();
-		skiers.add(new Skier(1L, "John", "Doe", LocalDate.of(1993, 5, 15), "New York", null, null, null));
-		skiers.add(new Skier(2L, "Jane", "Smith", LocalDate.of(1998, 8, 22), "Los Angeles", null, null, null));
+		skiers.add(new Skier(1L, "amine", "ben mohamed", LocalDate.of(1993, 5, 15), "Tunis", null, null, null));
+		skiers.add(new Skier(2L, "rim", "hmidet", LocalDate.of(1998, 8, 22), "Monastir", null, null, null));
 
 		when(skierRepository.findAll()).thenReturn(skiers);
 
@@ -90,8 +89,8 @@ class SkierServiceImplTest {
 		// Assert
 		assertNotNull(result);
 		assertEquals(2, result.size());
-		assertEquals("John", result.get(0).getFirstName());
-		assertEquals("Smith", result.get(1).getLastName());
+		assertEquals("amine", result.get(0).getFirstName());
+		assertEquals("hmidet", result.get(1).getLastName());
 		verify(skierRepository).findAll();
 	}
 }
