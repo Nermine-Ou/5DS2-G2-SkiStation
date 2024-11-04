@@ -3,7 +3,7 @@ pipeline {
     environment {
         RELEASE_VERSION = "1.0"
         DOCKER_IMAGE_NAME = 'raniahmidet-5DS2-G2-stationski'
-        IMAGE_TAG = "${RELEASE_VERSION}-${env.BUILD_NUMBER}"
+        DOCKER_IMAGE_TAG = "v${BUILD_NUMBER}"
 
     }
     stages {
@@ -40,13 +40,15 @@ pipeline {
             }
         }
 */
-       stage('building the image') {
-             steps {
-                   sh 'docker build -t $DOCKER_IMAGE_NAME:$IMAGE_TAG -f Dockerfile ./'
-                   }
-             }
+       stage('building docker image')
+               {
+                    steps {
+                       sh ' docker build -t $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG -f Dockerfile ./'
+                           }
+               }
 
-        stage('Push Docker Image to Docker Hub') {
+
+       stage('Push Docker Image to Docker Hub') {
             steps {
                 // Using DockerHub credentials securely
                 withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
