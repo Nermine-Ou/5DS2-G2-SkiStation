@@ -5,6 +5,7 @@ pipeline {
         DOCKER_IMAGE_NAME = 'raniahmidet-5ds2-g2-stationski'
         DOCKER_IMAGE_TAG = "v${BUILD_NUMBER}"
 
+
     }
     stages {
         stage('Checkout') {
@@ -48,16 +49,14 @@ pipeline {
                }
 
 
-       stage('Push Docker Image to Docker Hub') {
-            steps {
-                // Using DockerHub credentials securely
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                    sh "docker login -u $DOCKER_USER -p $DOCKER_PASS"
-                    sh "docker tag $DOCKER_IMAGE_NAME:$IMAGE_TAG $DOCKER_USER/$DOCKER_IMAGE_NAME:$IMAGE_TAG"
-                    sh "docker push $DOCKER_USER/$DOCKER_IMAGE_NAME:$IMAGE_TAG"
+       stage('dockerhub') {
+                steps {
+
+                sh "docker login -u raniahmidet -p Rania27615644."
+                sh "docker tag $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG raniahmidet/raniahmidet-5ds2-g2-stationski:$DOCKER_IMAGE_TAG"
+                sh "docker push  raniahmidet/raniahmidet-5ds2-g2-stationski:$DOCKER_IMAGE_TAG"
+                   }
                 }
-            }
-        }
 
         stage('Set Up & Build Working Environment') {
             steps {
