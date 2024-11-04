@@ -1,0 +1,19 @@
+version: "3.3"
+services:
+  mysqldb:
+    container_name: mysqldb
+    image: mysql:8
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - /home/mysql/data:/var/lib/mysql
+
+  spring_app:
+    image: nermineourimi/nermineourimi-5ds2-g2-skistation
+    container_name: devopscontainer
+    restart: on-failure
+    ports:
+      - 8083:8083
+    depends_on:
+      - mysqldb
