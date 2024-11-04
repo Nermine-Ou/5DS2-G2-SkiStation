@@ -26,14 +26,11 @@ pipeline {
         }
         */
 
-        stage('Quality Test SonarQube') {
-            steps {
-                // Using SonarQube credentials securely
-                withCredentials([usernamePassword(credentialsId: 'sonarqube-credentials', usernameVariable: 'SONAR_USER', passwordVariable: 'SONAR_PASS')]) {
-                    sh 'mvn sonar:sonar -Dsonar.login=$SONAR_USER -Dsonar.password=$SONAR_PASS'
-                }
-            }
-        }
+        stage('SonarQube ') {
+                     steps {
+                            sh 'mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=Rania27615644.'
+                           }
+                     }
 
         stage('Deployment Artifacts to Nexus') {
             steps {
