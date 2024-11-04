@@ -15,7 +15,7 @@ services:
 
   chaker-course-ski:
     image: chaker13/chaker-course-ski
-    container_name: chaker-course-ski
+    container_name: chaker-course-ski1
     depends_on:
       - mysql
     ports:
