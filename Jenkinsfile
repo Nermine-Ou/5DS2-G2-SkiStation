@@ -13,7 +13,7 @@ pipeline {
                 checkout scm
             }
         }
-
+/*
         stage('Build') {
             steps {
                  sh "mvn clean package -DskipTests"
@@ -39,7 +39,7 @@ pipeline {
                 sh 'mvn deploy -DskipTests'
             }
         }
-
+*/
        stage('building the image') {
              steps {
                    sh 'docker build -t $DOCKER_IMAGE_NAME:$IMAGE_TAG -f Dockerfile ./'
