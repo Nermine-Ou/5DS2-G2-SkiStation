@@ -3,7 +3,7 @@ version: '3.8'
 services:
 
   db:
-    container_name: mysql
+    container_name: mysql:${DOCKER_IMAGE_TAG}
     image: mysql
     cap_add:
       - SYS_NICE
