@@ -1,4 +1,4 @@
-version: '3'
+version: '3.8'
 
 services:
   mysql:
@@ -6,13 +6,12 @@ services:
     container_name: mysql_db
     environment:
       MYSQL_DATABASE: stationSki
+      MYSQL_ROOT_PASSWORD: root
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
     ports:
       - "3306:3306"
     volumes:
-      - mysql:/var/lib/mysql
-      - $PWD/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
-
+      - mysql_data:/var/lib/mysql
 
   spring_app:
     image: raniahmidet/raniahmidet-5DS2-G2-skistation:${IMAGE_TAG}
@@ -20,9 +19,15 @@ services:
     depends_on:
       - mysql
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql_db:3306/stationSki?&createDatabaseIfNotExist=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/stationSki?createDatabaseIfNotExist=true&useSSL=false
       - SPRING_DATASOURCE_USERNAME=root
-      - SPRING_DATASOURCE_PASSWORD=
-    volumes:
-      - .m2:/var/lib/jenkins/.m2
+      - SPRING_DATASOURCE_PASSWORD=root
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.MySQL8Dialect
+    ports:
+      - "8089:8089"
+
+volumes:
+  mysql_data:
     
