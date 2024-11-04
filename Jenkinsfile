@@ -39,11 +39,11 @@ pipeline {
             }
         }
 
-        stage('Build Docker Image') {
-            steps {
-                sh 'docker build -t $DOCKER_IMAGE_NAME:$IMAGE_TAG .'
-            }
-        }
+       stage('building the image') {
+             steps {
+                   sh 'docker build -t $DOCKER_IMAGE_NAME:$IMAGE_TAG -f Dockerfile ./'
+                   }
+             }
 
         stage('Push Docker Image to Docker Hub') {
             steps {
