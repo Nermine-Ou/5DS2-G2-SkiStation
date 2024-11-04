@@ -85,6 +85,14 @@
 		</dependency>
 	</dependencies>
 
+	<distributionManagement>
+		<repository>
+			<id>deployementRepo</id>
+			<url>https://192.168.33.10:8081/repository/maven-realeases/</url>
+		</repository>
+	</distributionManagement>
+
+
 	<build>
 		<plugins>
 			<plugin>
