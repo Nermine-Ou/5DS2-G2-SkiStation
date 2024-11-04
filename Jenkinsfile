@@ -13,26 +13,27 @@ pipeline {
                 checkout scm
             }
         }
-
+/*
         stage('Build') {
             steps {
                  sh "mvn clean package -DskipTests"
             }
         }
-/*
+
+
         stage("Mockito TEST") {
             steps {
                 sh 'mvn test'
             }
         }
-        */
+
 
         stage('SonarQube ') {
                      steps {
                             sh 'mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=Rania27615644.'
                            }
                      }
-
+*/
         stage('Deployment Artifacts to Nexus') {
             steps {
                 sh 'mvn deploy -DskipTests'
