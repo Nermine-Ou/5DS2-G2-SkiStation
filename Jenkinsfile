@@ -4,6 +4,11 @@ pipeline {
         RELEASE_VERSION = "1.0"
         DOCKER_IMAGE_NAME = 'raniahmidet-5DS2-G2-stationski'
         IMAGE_TAG = "${RELEASE_VERSION}-${env.BUILD_NUMBER}"
+        NEXUS_BASE_URL = "http://192.168.33.10:8081/repository"
+                        NEXUS_REPOSITORY = "maven-releases"
+                        NEXUS_ARTIFACT_VERSION = "1.0"
+                         MAVEN_ARTIFACT_ID = 'SkiStationProject'
+            }
     }
     stages {
         stage('Checkout') {
@@ -32,11 +37,23 @@ pipeline {
                            }
                      }
 
-        stage('Deployment Artifacts to Nexus') {
-            steps {
-                sh 'mvn deploy -DskipTests'
-            }
-        }
+       stage('Deploy artifact to nexus') {
+                           steps {
+                                  sh 'mvn deploy -DskipTests=true'
+                                       }
+                                   }
+                         stage("Build Docker image") {
+                             steps {
+                                 script {
+                                     // Build Docker image using the JAR file from Nexus
+                                     sh "docker build \
+                                         --build-arg NEXUS_BASE_URL=${NEXUS_BASE_URL} \
+                                         --build-arg NEXUS_REPOSITORY=${NEXUS_REPOSITORY} \
+                                         --build-arg NEXUS_ARTIFACT_VERSION=${NEXUS_ARTIFACT_VERSION} \
+                                         -t ${dockerImageName}:${DOCKER_IMAGE_TAG} ."
+                                 }
+                             }
+                         }
 
         stage('Build Docker Image') {
             steps {
