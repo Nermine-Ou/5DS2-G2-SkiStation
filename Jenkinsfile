@@ -28,6 +28,7 @@ pipeline {
         stage('SonarQube ') {
                      steps {
                             sh 'mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=Rania27615644.'
+                            sh 'mvn jacoco:report'
                            }
                      }
 
