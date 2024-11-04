@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
         RELEASE_VERSION = "1.0"
-        DOCKER_IMAGE_NAME = 'raniahmidet-5DS2-G2-stationski'
+        DOCKER_IMAGE_NAME = 'raniahmidet-5ds2-g2-stationski'
         DOCKER_IMAGE_TAG = "v${BUILD_NUMBER}"
 
     }
