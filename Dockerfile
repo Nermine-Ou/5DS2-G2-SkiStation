@@ -1,4 +1,4 @@
 FROM openjdk:17-jdk-slim
 EXPOSE 8083
-ADD target/StationnSki-0.0.3-RELEASE.war StationnSki-0.0.3-RELEASE.war
-ENTRYPOINT ["java", "-jar", "StationnSki-0.0.3-RELEASE.war"]
+ADD target/gestion-station-ski-0.0.3-SNAPSHOT.war gestion-station-ski-0.0.3-SNAPSHOT.war
+ENTRYPOINT ["java", "-jar", "/gestion-station-ski-0.0.3-SNAPSHOT.war"]
