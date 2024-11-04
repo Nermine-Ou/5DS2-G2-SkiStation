@@ -13,7 +13,7 @@ pipeline {
                 checkout scm
             }
         }
-/*
+
         stage('Build') {
             steps {
                  sh "mvn clean package -DskipTests"
@@ -33,7 +33,7 @@ pipeline {
                             sh 'mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=Rania27615644.'
                            }
                      }
-*/
+
         stage('Deployment Artifacts to Nexus') {
             steps {
                 sh 'mvn deploy -DskipTests'
