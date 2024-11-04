@@ -62,7 +62,7 @@ pipeline {
                                            echo 'Run Spring && MySQL Containers'
                                                 }
                                             }
- /*
+                                            
         stage("Mockito TEST") {
                    steps {
                        sh 'mvn test'
@@ -70,4 +70,3 @@ pipeline {
                }
     }
 }
-*/
