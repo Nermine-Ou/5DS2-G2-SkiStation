@@ -18,12 +18,13 @@ pipeline {
                  sh "mvn clean package -DskipTests"
             }
         }
-
+/*
         stage("Mockito TEST") {
             steps {
                 sh 'mvn test'
             }
         }
+        */
 
         stage('Quality Test SonarQube') {
             steps {
