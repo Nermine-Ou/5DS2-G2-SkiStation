@@ -17,6 +17,19 @@
 		<java.version>11</java.version>
 		<maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
 	</properties>
+	<distributionManagement>
+		<repository>
+			<id>nexus</id>
+			<url>http://192.168.162.222:8081/repository/maven-releases/</url>
+			<layout>default</layout>
+		</repository>
+		<snapshotRepository>
+			<id>nexus</id>
+			<url>http://192.168.162.222:8081/repository/maven-snapshots/</url>
+			<layout>default</layout>
+		</snapshotRepository>
+	</distributionManagement>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
