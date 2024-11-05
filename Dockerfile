@@ -12,7 +12,7 @@ RUN apk add --no-cache curl && \
     curl -o app.jar "$NEXUS_URL/repository/maven-central-repository/$(echo $GROUP_ID | tr . /)/$ARTIFACT_ID/$VERSION/$ARTIFACT_ID-$VERSION.jar"
 
 # Expose the application port
-EXPOSE 9000
+EXPOSE 9000a
 
 ENTRYPOINT ["java", "-jar", "app.jar"]
 
