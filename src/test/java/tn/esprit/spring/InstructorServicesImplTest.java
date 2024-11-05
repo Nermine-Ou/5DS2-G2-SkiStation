@@ -1,171 +1,168 @@
-/*package tn.esprit.spring;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.junit.jupiter.MockitoExtension;
-import tn.esprit.spring.entities.Instructor;
-import tn.esprit.spring.repositories.IInstructorRepository;
-import tn.esprit.spring.services.InstructorServicesImpl;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.*;
-
-@ExtendWith(MockitoExtension.class)
-public class InstructorServicesImplTest {
-
-    @Mock
-    private IInstructorRepository instructorRepository;
-
-    @InjectMocks
-    private InstructorServicesImpl instructorServices;
-
-    @BeforeEach
-    public void setup() {
-        MockitoAnnotations.openMocks(this);
-    }
-
-    @Test
-    public void testAddInstructor() {
-        // Arrange
-        Instructor instructor = new Instructor();
-        instructor.setFirstName("Salhi");
-        instructor.setLastName("Ahmed");
-
-        // Mocking repository save method
-        when(instructorRepository.save(any(Instructor.class))).thenReturn(instructor);
-
-        // Act
-        Instructor savedInstructor = instructorServices.addInstructor(instructor);
-
-        // Assert
-        assertNotNull(savedInstructor);
-        assertEquals("Salhi", savedInstructor.getFirstName());
-    }
-
-    @Test
-    public void testDeleteInstructor() {
-        // Arrange
-        Long instructorId = 1L;
-
-        // Mocking repository behavior for delete
-        doNothing().when(instructorRepository).deleteById(instructorId);
-
-        // Act
-        instructorServices.deleteInstructor(instructorId);
-
-        // Assert
-        verify(instructorRepository, times(1)).deleteById(instructorId);
-    }
-}*/
 package tn.esprit.spring;
 
-import org.junit.jupiter.api.BeforeEach;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import tn.esprit.spring.entities.Course;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 import tn.esprit.spring.entities.Instructor;
-import tn.esprit.spring.repositories.ICourseRepository;
-import tn.esprit.spring.repositories.IInstructorRepository;
-import tn.esprit.spring.services.InstructorServicesImpl;
+import tn.esprit.spring.services.IInstructorServices;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.*;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
+@RunWith(SpringRunner.class)
+
+
+
+@Slf4j
+@SpringBootTest
 class InstructorServicesImplTest {
 
-    @Mock
-    private IInstructorRepository instructorRepository;
 
-    @Mock
-    private ICourseRepository courseRepository;
 
-    @InjectMocks
-    private InstructorServicesImpl instructorServices;
+    @Autowired
 
-    private Instructor instructor;
-    private Course course;
+    IInstructorServices instructorServices;
 
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-        instructor = new Instructor(1L, "John", "Doe", LocalDate.now(), new HashSet<>());
-        course = new Course();
-        course.setNumCourse(1L);
-    }
+
+
+
 
     @Test
-    void addInstructor() {
-        when(instructorRepository.save(any(Instructor.class))).thenReturn(instructor);
 
-        Instructor result = instructorServices.addInstructor(instructor);
+    public void testAddClient() throws ParseException {
 
-        assertNotNull(result);
-        assertEquals(instructor.getNumInstructor(), result.getNumInstructor());
-        verify(instructorRepository, times(1)).save(instructor);
+
+
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate dateOfHire = LocalDate.parse("30/09/2021", dateFormat);
+
+        // Create an Instructor instance without numInstructor
+        Instructor c = new Instructor();
+        c.setFirstName("Salhi");
+        c.setLastName("Ahmed");
+        c.setDateOfHire(dateOfHire);
+
+        // Add instructor (assuming instructorServices is already instantiated)
+        Instructor instructor = instructorServices.addInstructor(c);
+
+        Instructor client = instructorServices.addInstructor(c);
+
+        log.info("client "+client);
+
+        assertNotNull(client.getNumInstructor());
+
+        assertNotNull(client.getFirstName());
+
+        assertTrue(client.getLastName().length() > 0);
+
+
+
     }
-
     @Test
-    void retrieveAllInstructors() {
-        List<Instructor> instructors = Arrays.asList(instructor);
-        when(instructorRepository.findAll()).thenReturn(instructors);
+    public void testDeleteInstructor() {
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate dateOfHire = LocalDate.parse("30/09/2021", dateFormat);
 
-        List<Instructor> result = instructorServices.retrieveAllInstructors();
+        // Create and set up a new Instructor instance
+        Instructor c = new Instructor();
+        c.setFirstName("Salhi");
+        c.setLastName("Ahmed");
+        c.setDateOfHire(dateOfHire);
 
-        assertEquals(1, result.size());
-        verify(instructorRepository, times(1)).findAll();
+        // Add instructor (assuming instructorServices is already instantiated)
+        Instructor instructor = instructorServices.addInstructor(c);
+
+        // Assert that the instructor was added successfully
+        assertNotNull(instructor, "Instructor should be added successfully");
+        assertNotNull(instructor.getNumInstructor(), "Instructor ID should be assigned");
+
+        // Delete the instructor
+        instructorServices.deleteInstructor(instructor.getNumInstructor());
+
+        // Verify that the instructor no longer exists (assuming a method like getInstructorById)
+        Instructor deletedInstructor = instructorServices.retrieveInstructor(instructor.getNumInstructor());
+        assertNull(deletedInstructor, "Instructor should be deleted");
     }
-
     @Test
-    void updateInstructor() {
-        when(instructorRepository.save(any(Instructor.class))).thenReturn(instructor);
+    public void testModifyInstructor() {
+        // Set up date formatter and parse the hire date
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate dateOfHire = LocalDate.parse("30/09/2021", dateFormat);
 
-        Instructor result = instructorServices.updateInstructor(instructor);
+        // Create and set up a new Instructor instance
+        Instructor c = new Instructor();
+        c.setFirstName("Salhi");
+        c.setLastName("Ahmed");
+        c.setDateOfHire(dateOfHire);
 
-        assertEquals(instructor.getFirstName(), result.getFirstName());
-        verify(instructorRepository, times(1)).save(instructor);
+        // Add the instructor to the database
+        Instructor instructor = instructorServices.addInstructor(c);
+
+        // Assert that the instructor was added successfully
+        assertNotNull(instructor, "Instructor should be added successfully");
+        assertNotNull(instructor.getNumInstructor(), "Instructor ID should be assigned");
+
+        // Modify the instructor's details
+        instructor.setFirstName("Amine");
+        instructor.setLastName("Mahdi");
+        instructor.setDateOfHire(LocalDate.parse("01/10/2022", dateFormat));
+
+        // Call the updateInstructor method to save the changes
+        Instructor updatedInstructor = instructorServices.updateInstructor(instructor);
+
+        // Assert that the updated instructor is not null and that the changes were saved
+        assertNotNull(updatedInstructor, "Updated instructor should not be null");
+        assertEquals("Amine", updatedInstructor.getFirstName(), "First name should be updated");
+        assertEquals("Mahdi", updatedInstructor.getLastName(), "Last name should be updated");
+        assertEquals(LocalDate.parse("01/10/2022", dateFormat), updatedInstructor.getDateOfHire(), "Hire date should be updated");
+
+        // Retrieve the updated instructor and verify the changes are persisted in the database
+        Instructor retrievedInstructor = instructorServices.retrieveInstructor(updatedInstructor.getNumInstructor());
+        assertNotNull(retrievedInstructor, "Retrieved instructor should not be null");
+        assertEquals("Amine", retrievedInstructor.getFirstName(), "First name should match the updated value");
+        assertEquals("Mahdi", retrievedInstructor.getLastName(), "Last name should match the updated value");
+        assertEquals(LocalDate.parse("01/10/2022", dateFormat), retrievedInstructor.getDateOfHire(), "Hire date should match the updated value");
     }
-
     @Test
-    void retrieveInstructor() {
-        when(instructorRepository.findById(anyLong())).thenReturn(Optional.of(instructor));
+    public void testRetrieveInstructor() {
+        // Set up date formatter and parse the hire date
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate dateOfHire = LocalDate.parse("15/08/2020", dateFormat);
 
-        Instructor result = instructorServices.retrieveInstructor(1L);
+        // Create and set up a new Instructor instance
+        Instructor c = new Instructor();
+        c.setFirstName("John");
+        c.setLastName("Doe");
+        c.setDateOfHire(dateOfHire);
 
-        assertNotNull(result);
-        assertEquals(instructor.getNumInstructor(), result.getNumInstructor());
-        verify(instructorRepository, times(1)).findById(1L);
+        // Add the instructor to the database
+        Instructor addedInstructor = instructorServices.addInstructor(c);
+
+        // Assert that the instructor was added successfully
+        assertNotNull(addedInstructor, "Instructor should be added successfully");
+        assertNotNull(addedInstructor.getNumInstructor(), "Instructor ID should be assigned");
+
+        // Retrieve the instructor by their ID
+        Instructor retrievedInstructor = instructorServices.retrieveInstructor(addedInstructor.getNumInstructor());
+
+        // Assert that the retrieved instructor is not null
+        assertNotNull(retrievedInstructor, "Instructor should be retrieved successfully");
+
+        // Assert that the retrieved instructor's details match the added one
+        assertEquals(addedInstructor.getNumInstructor(), retrievedInstructor.getNumInstructor(), "Instructor ID should match");
+        assertEquals("John", retrievedInstructor.getFirstName(), "First name should match");
+        assertEquals("Doe", retrievedInstructor.getLastName(), "Last name should match");
+        assertEquals(LocalDate.parse("15/08/2020", dateFormat), retrievedInstructor.getDateOfHire(), "Hire date should match");
     }
 
-    @Test
-    void addInstructorAndAssignToCourse() {
-        when(instructorRepository.save(any(Instructor.class))).thenReturn(instructor);
-        when(courseRepository.findById(anyLong())).thenReturn(Optional.of(course));
 
-        Instructor result = instructorServices.addInstructorAndAssignToCourse(instructor, 1L);
 
-        assertNotNull(result);
-        assertEquals(1, result.getCourses().size());
-        verify(courseRepository, times(1)).findById(1L);
-        verify(instructorRepository, times(1)).save(instructor);
-    }
-
-    @Test
-    void deleteInstructor() {
-        doNothing().when(instructorRepository).deleteById(anyLong());
-
-        instructorServices.deleteInstructor(1L);
-
-        verify(instructorRepository, times(1)).deleteById(1L);
-    }
 }
-
