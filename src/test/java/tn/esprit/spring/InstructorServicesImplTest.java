@@ -37,7 +37,7 @@ class InstructorServicesImplTest {
 
     @Test
 
-    public void testAddClient() throws ParseException {
+    void testAddClient() throws ParseException {
 
 
 
@@ -51,7 +51,7 @@ class InstructorServicesImplTest {
         c.setDateOfHire(dateOfHire);
 
         // Add instructor (assuming instructorServices is already instantiated)
-        Instructor instructor = instructorServices.addInstructor(c);
+
 
         Instructor client = instructorServices.addInstructor(c);
 
@@ -67,7 +67,7 @@ class InstructorServicesImplTest {
 
     }
     @Test
-    public void testDeleteInstructor() {
+    void testDeleteInstructor() {
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate dateOfHire = LocalDate.parse("30/09/2021", dateFormat);
 
@@ -92,7 +92,7 @@ class InstructorServicesImplTest {
         assertNull(deletedInstructor, "Instructor should be deleted");
     }
     @Test
-    public void testModifyInstructor() {
+    void testModifyInstructor() {
         // Set up date formatter and parse the hire date
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate dateOfHire = LocalDate.parse("30/09/2021", dateFormat);
@@ -132,7 +132,7 @@ class InstructorServicesImplTest {
         assertEquals(LocalDate.parse("01/10/2022", dateFormat), retrievedInstructor.getDateOfHire(), "Hire date should match the updated value");
     }
     @Test
-    public void testRetrieveInstructor() {
+    void testRetrieveInstructor() {
         // Set up date formatter and parse the hire date
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate dateOfHire = LocalDate.parse("15/08/2020", dateFormat);
