@@ -19,14 +19,14 @@
 	</properties>
 	<distributionManagement>
 		<repository>
-			<id>nexus</id>
+			<id>deploymentRepo</id>
+			<name>Nexus Repository</name>
 			<url>http://192.168.162.222:8081/repository/maven-releases/</url>
-			<layout>default</layout>
 		</repository>
 		<snapshotRepository>
-			<id>nexus</id>
+			<id>deploymentRepo</id>
+			<name>Nexus Repository Snapshots</name>
 			<url>http://192.168.162.222:8081/repository/maven-snapshots/</url>
-			<layout>default</layout>
 		</snapshotRepository>
 	</distributionManagement>
 
